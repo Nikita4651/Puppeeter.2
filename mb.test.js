@@ -1,5 +1,5 @@
 const {
-  clickMonday,
+  clickDay,
   clickSessionTime,
   selectASeat,
   clickButton,
@@ -21,7 +21,7 @@ afterEach(async () => {
 
 describe("Positive booking flow tests", () => {
   test("NFS movie booking", async () => {
-    await clickMonday(page, "[data-time-stamp='1791406800']");
+    await clickDay(page, "[data-time-stamp='1791406800']");
     await clickSessionTime(page, "[data-seance-id='243']");
     await selectASeat(
       page,
@@ -41,7 +41,7 @@ describe("Positive booking flow tests", () => {
   }, 40000);
 
   test("should book 2 VIP seats for 'Ведьмак' on Saturday 20:00 in Modern Hall", async () => {
-    await clickMonday(page, "[data-time-stamp='1791579600']");
+    await clickDay(page, "[data-time-stamp='1791579600']");
     await clickSessionTime(page, "[data-seance-id='225']");
     await selectASeats(
       page,
@@ -63,7 +63,7 @@ describe("Positive booking flow tests", () => {
 
 describe("Negative booking flow tests", () => {
   test("should prevent booking for 'Ведьмак' when no standard seats are free", async () => {
-    await clickMonday(page, "[data-time-stamp='1791579600']");
+    await clickDay(page, "[data-time-stamp='1791579600']");
     await clickSessionTime(page, "[data-seance-id='234']");
     await selectASeatDisable(
       page,
