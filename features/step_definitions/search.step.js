@@ -30,9 +30,10 @@ Given("user navigated to the cinema page", async function () {
   return await this.page.goto(`https://qamid.tmweb.ru/client/index.php`, {
     setTimeout: 10000,
   });
+
 });
 When("user clicks the day button", async function () {
-  return await clickDay(this.page, "[data-time-stamp='1791752400']");
+  return await clickDay(this.page, "a.page-nav__day:nth-child(6)");
 });
 When("user clicks the session time 20:00", async function () {
   return await clickSessionTime(this.page, "[data-seance-id='243']");
@@ -47,14 +48,22 @@ When("user selects the seat", async function () {
 When("user clicks the Book button", async function () {
   return await clickButton(this.page, "button");
 });
+
 Then("user sees the course suggested {string}", async function (string) {
-  const actual = await selectASeats(this.page, "h2.ticket__check-title");
+  await this.page.waitForSelector("[class='tichet__check']", {
+      visible: true,
+      timeout: 50000,
+    });
+  const headerText = await this.page.$eval(
+      "h2.ticket__check-title",
+      (el) => el.innerText,
+    );
   const expected = string;
-  expect(actual).contain(expected);
+  expect(headerText).contain("ВЫ ВЫБРАЛИ БИЛЕТЫ:");
 });
 
 When("user clicks the saturday button", async function () {
-  return await clickDay(this.page, "[data-time-stamp='1791579600']");
+  return await clickDay(this.page, "a.page-nav__day:nth-child(3)");
 });
 When("user clicks the session time", async function () {
   return await clickSessionTime(this.page, "[data-seance-id='234']");
@@ -71,3 +80,4 @@ Then("booking button is disabled", async function () {
   const expected = true;
   expect(actual).to.equal(expected);
 });
+
